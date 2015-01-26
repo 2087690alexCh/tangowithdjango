@@ -56,16 +56,6 @@ def populate():
 
     # Print out what we have added to the user and update Category model
     for c in Category.objects.all():
-        if c.name=='Python':
-            c.views= 128
-            c.likes= 64
-        elif c.name=='Django':
-            c.views=64
-            c.likes=32
-        elif c.name=='Other Frameworks':
-            c.view=32
-            c.likes=16
-
         for p in Page.objects.filter(category=c):
             print "- {0} - {1}".format(str(c), str(p))
 
