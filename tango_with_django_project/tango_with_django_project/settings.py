@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles', 'rango',
+    'registration',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -95,4 +96,9 @@ STATICFILES_DIRS = (
 )
 
 MEDIA_URL = '/media/' #url where uploaded files can be accessed from
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media') #where uploaded files are stored on the server
+ME1DIA_ROOT = os.path.join(BASE_DIR, 'media') #where uploaded files are stored on the server
+
+LOGIN_URL = "/rango/login/"
+
+ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value.
+REGISTRATION_AUTO_LOGIN = True # Automatically log the user in.
