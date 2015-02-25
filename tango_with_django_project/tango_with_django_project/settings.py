@@ -38,14 +38,14 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
+    'django.contrib.sessions', # allow storing session inf in django DB
     'django.contrib.messages',
     'django.contrib.staticfiles', 'rango',
     'registration',
 )
 
 MIDDLEWARE_CLASSES = (
-    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware', #Create sessions id cookies
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -54,6 +54,8 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False #If set to false - Persistent Session, or if absent persistent Session again
+SESSION_COOKIE_AGE = 1209690 # Denotes the No of seconds a cookie exist for, specify only for Persistent session
 ROOT_URLCONF = 'tango_with_django_project.urls'
 
 WSGI_APPLICATION = 'tango_with_django_project.wsgi.application'
