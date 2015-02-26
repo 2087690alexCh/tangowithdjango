@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions', # allow storing session inf in django DB
     'django.contrib.messages',
     'django.contrib.staticfiles', 'rango',
+    'rango.templatetags.rango_extras',
     'registration',
 )
 
