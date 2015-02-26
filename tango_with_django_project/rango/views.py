@@ -291,9 +291,9 @@ def add_page(request, category_name_slug):
 #         # blank dictionary object...
 #         return render(request, 'rango/login.html', {})
 
-# @login_required
-# def restricted(request):
-#     return render(request, 'rango/restricted.html')
+@login_required
+def restricted(request):
+    return render(request, 'rango/restricted.html')
 
 # Use the login_required() decorator to ensure only those logged in can access the view.
 # @login_required

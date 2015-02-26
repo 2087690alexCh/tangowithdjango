@@ -1,11 +1,15 @@
 {% extends 'rango/base.html' %}
 {% load staticfiles %}
 
-    {% block ttitle %}Add Category{% endblock %}
+{% block ttitle %}Rango{% endblock %}
 
 {% block body_block %}
+    <div clasS="page-header">
+        <h1>Add a Category</h1>
+    </div>
 
-        <form role="form" id="category_form" method="post" action="{% url 'add_category' %}">
+
+        <form id="category_form" method="post" action="{% url 'add_category' %}">
 
             {% csrf_token %}
             {% for hidden in form.hidden_fields %}
@@ -14,12 +18,10 @@
 
             {% for field in form.visible_fields %}
                 {{ field.errors }}
-                {{ field.help_text }}<br/>
-                {{ field }}<br/>
+                {{ field.help_text }}
+                {{ field }}
             {% endfor %}
 
-            <br/>
-            <button class="btn btn-primary" type="submit" name="submit">Add Category</button>
+            <input type="submit" name="submit" value="Create Category" />
         </form>
-
 {% endblock %}
