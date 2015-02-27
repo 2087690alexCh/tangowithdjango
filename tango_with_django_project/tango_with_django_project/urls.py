@@ -6,7 +6,7 @@ from registration.backends.simple.views import RegistrationView
 #cREATE A NEW CLASS THAT REDIRECTS THE USER TO THE INDEX PAGE, IF SUCCESFUL AT LOGGIN
 class MyRegistrationView(RegistrationView):
     def get_success_url(self, request, user):
-        return '/rango/'
+        return '/rango/add_profile/'
 
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
