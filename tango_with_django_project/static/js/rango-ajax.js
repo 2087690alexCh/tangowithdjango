@@ -17,14 +17,6 @@ $('#suggestion').keyup(function(){
         });
 })
 
-$('#suggestion').keyup(function(){
-        var query;
-        query = $(this).val();
-        $.get('/rango/suggest_category/', {suggestion: query}, function(data){
-         $('#cats').html(data);
-        });
-})
-
 
 $('.rango-add').click(function(){
     var catId;

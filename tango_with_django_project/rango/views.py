@@ -26,7 +26,7 @@ def index(request):
     if last_visit:
         last_visit_time = datetime.strptime(last_visit[:-7], "%Y-%m-%d %H:%M:%S")
 
-        if (datetime.now() - last_visit_time).seconds > 0:
+        if (datetime.now() - last_visit_time).days > 0:
             # ...reassign the value of the cookie to +1 of what it was before...
             visits = visits + 1
             # ...and update the last visit cookie, too.
@@ -188,7 +188,10 @@ def add_page(request, category_name_slug):
                 page.views = 0
                 page.save()
                 # probably better to use a redirect here.
-                return category(request, category_name_slug)
+                return HttpResponseRedirect('/rango/category/' + category_name_slug)
+
+               # return index(request)
+               # return render(category(request, category_name_slug)
         else:
             print form.errors
     else:
@@ -340,7 +343,7 @@ def track_url(request):
                 url = page.url
             except:
                 pass
-    print page.views
+
     return redirect(url)
 
 
@@ -352,7 +355,6 @@ def like_category(request):
     cat_id = None
     if request.method == 'GET':
         cat_id = request.GET['category_id']
-    print "like"
     likes = 0
     if cat_id:
         cat = Category.objects.get(id=int(cat_id))
@@ -385,7 +387,13 @@ def get_category_list(max_results=0, starts_with=''):
                 if len(cat_list) > max_results:
                         cat_list = cat_list[:max_results]
 
+        for cat in cat_list:
+            cat.url = url(cat.name)
         return cat_list
+
+def url(url):
+    func = lambda s: s[:1].lower() + s[1:] if s else ''
+    return func(url).replace(' ', '-')
 
 @login_required
 def auto_add_page(request):
