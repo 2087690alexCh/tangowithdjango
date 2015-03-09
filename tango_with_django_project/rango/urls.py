@@ -5,6 +5,7 @@ from django.conf.urls import patterns
 from django.conf.urls import url
 from rango import views
 
+
 urlpatterns = patterns('',
                        url(r'^$', views.index, name='index'),
                        url(r'^about/', views.about, name='about'),
@@ -19,6 +20,8 @@ urlpatterns = patterns('',
                        url(r'^like_category/$', views.like_category, name='like_category'),
                        url(r'^suggest_category/$', views.suggest_category, name='suggest_category'),
                        url(r'^auto_add_page/$', views.auto_add_page, name='auto_add_page'),
-                       # url(r'^rango/add_profile/', views.register_profile, name="add_profile"),
+                       url(r'^add_profile/$', views.register_profile, name='add_profile'),
+                       url(r'^profile/$', views.profile, name='profile'),
+                       url(r'^profiles/$', views.profiles, name='profiles'),
                        #  url(r'^logout/',views.user_logout, name="logout"),
                         )

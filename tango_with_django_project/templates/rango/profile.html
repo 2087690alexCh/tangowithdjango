@@ -1,0 +1,18 @@
+{% extends "rango/base.html" %}
+
+{% block title %} Profile {% endblock %}
+
+{% block body_block %}
+
+    <p><strong>Username: </strong> {{ user.username }}</p>
+    <p><strong>Email: </strong> {{ user.email }}</p>
+
+    <form id="profile_update" method="post" action="." enctype="multipart/form-data">
+        {% csrf_token %}
+        <p><strong>Website: </strong>{{ form.website }}</p>
+        <p><strong>Picture:</strong>
+        {% if picture %} <img src="{{ picture.url }}"/> {% endif %}
+            {{ form.picture }}</p>
+        <input class="btn btn-primary" type="submit" value="Change_profile" />
+    </form>
+{% endblock %}

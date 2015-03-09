@@ -16,7 +16,7 @@
         <div id="page">
         <ul>
                 {% for page in pages %}
-                <li><a href="{% url 'goto' %}?page_id={{ page.id }}">{{ page.title }}</a></li>
+                <li><a href="{% url 'goto' %}?page_id={{ page.id }}">{{ page.title }}</a>  Visits: {{ page.views }}</li>
 
                 {% endfor %}
                 </ul>
@@ -27,14 +27,10 @@
 
         {% if user.is_authenticated %}
                 <a href="/rango/category/{{category.slug}}/add_page/">Add a Page</a>
-
-        {% else %}
-                 The specified category {{ category_name }} does not exist!
         {% endif %}
-
-    {% endif %}
-
-    {% if user.is_authenticated %}
+        <p></p>
+        <p>{{ category.name }} visited: {{ category.views }}</p>
+        {% if user.is_authenticated %}
         <div class="page-header">
             <h1>Search with Rango</h1>
         </div>
@@ -76,18 +72,24 @@
             </div>
         </div>
 
-    <p>
+       <p>
+        {% endif %}
+
+         <strong id="like_count">{{ category.likes }}</strong> people like this category
+
+        {% if user.is_authenticated %}
+                <button id="likes" data-catid="{{ category.id }}" class="btn btn-primary" type="button">
+                <span class="glyphicon glyphicon-thumbs-up"></span>
+                Like
+                </button>
+        {% endif %}
+
+        </p>
+
+    {% else %}
+        The specified category {{ category_name }} does not exist!
     {% endif %}
 
-     <strong id="like_count">{{ category.likes }}</strong> people like this category
-
-    {% if user.is_authenticated %}
-            <button id="likes" data-catid="{{ category.id }}" class="btn btn-primary" type="button">
-            <span class="glyphicon glyphicon-thumbs-up"></span>
-            Like
-            </button>
-    {% endif %}
-
-    </p>
+    <p>{{ user.email }} </p>,
 
 {% endblock %}

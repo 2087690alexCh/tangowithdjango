@@ -111,6 +111,8 @@ def category(request, category_name_slug):
     context_dict = {}
     context_dict['result_list'] = None
     context_dict['query'] = None
+    context_dict['views'] = None
+
     if request.method == 'POST':
         query = request.POST['query'].strip()
 
@@ -125,14 +127,20 @@ def category(request, category_name_slug):
         category = Category.objects.get(slug=category_name_slug)
         context_dict['category_name'] = category.name
         pages = Page.objects.filter(category=category).order_by('-views')
+        context_dict['views'] = category.views + 1
         context_dict['pages'] = pages
         context_dict['category'] = category
+
+        category.views = context_dict['views']
+        category.save()
+
+        if not context_dict['query']:
+            context_dict['query'] = category.name
 
     except Category.DoesNotExist:
         pass
 
-    if not context_dict['query']:
-        context_dict['query'] = category.name
+
 
     return render(request, 'rango/category.html', context_dict)
 
@@ -335,7 +343,6 @@ def track_url(request):
     print page.views
     return redirect(url)
 
-# def register_profile(request):
 
 from django.contrib.auth.decorators import login_required
 
@@ -402,3 +409,91 @@ def auto_add_page(request):
             context_dict['pages'] = pages
 
     return render(request, 'rango/page_list.html', context_dict)
+
+
+def register_profile(request):
+    if not request.user.is_authenticated():
+        return HttpResponse("Please logged in first.")
+
+    # check if HTTP POST
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST)
+
+        # is form valid
+        if form.is_valid():
+            # put saving off to make the reference between profile and user first
+            profile = form.save(commit=False)
+            profile.user = request.user
+
+            # If picture, add it to the UserProfile model
+            if 'picture' in request.FILES:
+                profile.picture = request.FILES['picture']
+
+            # save the UserProfile instance
+            profile.save()
+
+            # navigate to homepage
+            return index(request)
+        else:
+            print form.errors #print errors
+    else:
+        # If Get, create a new ProfileForm instance and send user to profile_registration
+        form = UserProfileForm()
+
+    return render(request, 'rango/profile_registration.html', {'form': form})
+
+
+from models import UserProfile
+
+def profile(request):
+    if not request.user.is_authenticated():
+        return HttpResponse("Please logged in first.")
+
+    context_dict = {}
+    profile = UserProfile.objects.get(user = request.user)
+
+    # if HTTP POST
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST)
+        form.fields['website'].initial = profile.website
+        context_dict['form'] = form
+        context_dict['picture'] = profile.picture
+
+        # If valid form
+        if form.is_valid():
+            # do not save to get user
+            updatedProfile = form.save(commit=False)
+            updatedProfile.user = request.user
+
+            # If picture send - add to updatedProfile
+            if 'picture' in request.FILES:
+                updatedProfile.picture = request.FILES['picture']
+
+            # save the UserProfile instance
+            try:
+                updatedProfile.save()
+            except:
+                profile.delete()
+                updatedProfile.save()
+
+            return index(request)
+        else:
+            print form.errors
+    else: # if HTTP GET show the page
+        form = UserProfileForm()
+        form.fields['website'].initial = profile.website
+        context_dict['form'] = form
+        context_dict['picture'] = profile.picture
+
+    return render(request, 'rango/profile.html', context_dict)
+
+def profiles(request):
+
+    context_dict = {}
+    # Query all the profiles from database
+    allprofiles = UserProfile.objects.all()
+    # Add to context_dict
+    context_dict['profiles'] = allprofiles
+
+    # redirect to allProfies.html
+    return render(request, 'rango/allProfiles.html', context_dict)

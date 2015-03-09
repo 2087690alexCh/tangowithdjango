@@ -1,0 +1,18 @@
+{% extends "rango/base.html" %}
+
+{% block title %} Profiles {% endblock %}
+
+{% block body_block %}
+
+    {% for profile in profiles %}
+        <p><strong>Username: </strong> {{ profile.user.username }}</p>
+        <p><strong>Email: </strong> {{ profile.user.email }}</p>
+        <p><strong>Website: </strong>{{ profile.website }}</p>
+        <p><strong>Picture: </strong>{% if profile.picture %}<img src="{{ profile.picture.url }}"/> {% endif %}
+            {{ form.picture }}</p>
+        {% if profile.user == user %}
+            <p><a href="{% url 'profile' %}">Change profile</a></p>
+        {% endif %}
+        <hr>
+    {% endfor %}
+{% endblock %}
