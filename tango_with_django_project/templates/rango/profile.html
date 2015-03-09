@@ -13,6 +13,7 @@
         <p><strong>Picture:</strong>
         {% if picture %} <img src="{{ picture.url }}"/> {% endif %}
             {{ form.picture }}</p>
+        <p><a href="/accounts/password/change"><strong>Change Password</strong></a></p>
         <input class="btn btn-primary" type="submit" value="Change_profile" />
     </form>
 {% endblock %}
