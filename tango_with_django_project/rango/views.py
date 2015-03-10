@@ -388,12 +388,10 @@ def get_category_list(max_results=0, starts_with=''):
                         cat_list = cat_list[:max_results]
 
         for cat in cat_list:
-            cat.url = url(cat.name)
+            cat.url = cat.slug
         return cat_list
 
-def url(url):
-    func = lambda s: s[:1].lower() + s[1:] if s else ''
-    return func(url).replace(' ', '-')
+
 
 @login_required
 def auto_add_page(request):
